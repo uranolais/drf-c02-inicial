@@ -5,6 +5,12 @@ class EstudanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Estudante
         fields = ['id','nome','email','cpf','data_nascimento','celular']
+    
+    def validate_cpf(self, cpf):
+        if len(cpf) != 11:
+            raise serializers.ValidationError({'cpf':'O CPF deve ter 11 dígitos'})
+        return cpf
+    
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +31,7 @@ class ListaMatriculasEstudanteSerializer(serializers.ModelSerializer):
         fields = ['curso','periodo']
     def get_periodo(self, obj):
         return obj.get_periodo_display()
+    # get_<nome_do_campo>_display() https://docs.djangoproject.com/pt-br/4.2/ref/models/instances/#extra-instance-methods
 
 # localhost:8000/curso/1/matriculas
 class ListaMatriculasCursoSerializer(serializers.ModelSerializer):
@@ -32,3 +39,4 @@ class ListaMatriculasCursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Matricula
         fields = ['estudante_nome',]
+
