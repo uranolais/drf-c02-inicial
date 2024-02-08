@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 class Estudante(models.Model):
     nome = models.CharField(max_length = 100)
@@ -16,8 +17,8 @@ class Curso(models.Model):
         ('I','Intermediário'),
         ('A','Avançado'),
     )
-    codigo = models.CharField(max_length=10)
-    descricao = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=10,unique = True, validators=[MinLengthValidator(3)] ) #adicionando parametro validators
+    descricao = models.CharField(max_length=100, blank = False)#adicionar o blank = False no curso 01 quando tiver criando o modelo
     nivel = models.CharField(max_length=1, choices=NIVEL, blank=False, null=False, default = 'B')
 
     def __str__(self):
