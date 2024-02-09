@@ -6,7 +6,7 @@ class Estudantes(admin.ModelAdmin):
     list_display_links = ('id','nome',)
     list_per_page = 10 # mudar para 10 no admin no curso 01
     search_fields = ('nome',)
-    
+    ordering = ('nome',)
 
 admin.site.register(Estudante,Estudantes)
 
