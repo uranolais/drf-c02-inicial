@@ -7,9 +7,9 @@ class EstudanteSerializer(serializers.ModelSerializer):
         model = Estudante
         fields = ['id','nome','email','cpf','data_nascimento','celular']
     
-    def validate(self, data): #esse data não é obrigatório
+    def validate(self, data): #esse data não é obrigatório ter esse nome
         if cpf_invalido(data['cpf']):
-            raise serializers.ValidationError({'cpf':'O CPF deve ter 11 dígitos'})
+            raise serializers.ValidationError({'cpf':'Número de CPF inválido'})
         if nome_invalido(data['nome']):
             raise serializers.ValidationError({'nome':'O nome só pode ter letras'})
         if not celular_valido(data['celular']):
