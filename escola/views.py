@@ -10,10 +10,10 @@ class EstudantesViewSet(viewsets.ModelViewSet):
     serializer_class = EstudanteSerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    #, filters.SearchFilter
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    # filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['nome']
-    # search_fields = ['nome', 'cpf']
+    search_fields = ['nome', 'cpf']
 
 class CursosViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
