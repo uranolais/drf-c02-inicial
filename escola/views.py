@@ -1,19 +1,24 @@
 from rest_framework import viewsets, generics, filters
 from escola.models import Estudante,Curso,Matricula
-from escola.serializers import EstudanteSerializer,CursoSerializer,MatriculaSerializer,ListaMatriculasEstudanteSerializer, ListaMatriculasCursoSerializer
+from escola.serializers import EstudanteSerializer,CursoSerializer,MatriculaSerializer,ListaMatriculasEstudanteSerializer, ListaMatriculasCursoSerializer, EstudanteSerializerV2
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
 class EstudantesViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all()
-    serializer_class = EstudanteSerializer
+    # serializer_class = EstudanteSerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     # filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['nome']
     search_fields = ['nome', 'cpf']
+    def get_serializer_class(self):
+        print("Valor de request.version:", self.request.version)
+        if self.request.version == 'v2': #rota: http://127.0.0.1:8000/estudantes/?version=v2
+            return EstudanteSerializerV2
+        return EstudanteSerializer
 
 class CursosViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
